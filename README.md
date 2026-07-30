@@ -23,6 +23,18 @@ docker-compose up -d
 * Nest
 * Docker Desktop
 
+
+## Nota de actualización - mongoose
+
+Durante el desarrollo de los ejercicios se encontró un problema con la versión de mongoose.
+
+No encontré info respecto al issue, pero la forma de evitarlo fue instalando la versiones utilizadas por Fernando en el desarrollo de la clase 7.
+
+```
+yarn add @nestjs/mongoose@9.1.1 mongoose@6.4.2
+```
+
+
 ## Nota de actualización - Axios
 En la siguiente clase, instalamos el paquete axios para realizar las peticiones HTTP.
 
