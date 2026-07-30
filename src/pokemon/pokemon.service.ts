@@ -28,11 +28,8 @@ export class PokemonService {
 
     }
     catch (error) {
-      if (error.code === 11000) {
-        throw new BadRequestException(`Pokemon already exists in db ${JSON.stringify(error.keyValue)}`)
-      }
-      console.log(error)
-      throw new InternalServerErrorException(`Can't create pokemon - Check server logs`)
+      
+      this.handleException(error);
 
     }
     
@@ -62,11 +59,56 @@ export class PokemonService {
     return pokemon;
   }
 
-  update(id: string, updatePokemonDto: UpdatePokemonDto) {
-    return `This action updates a #${id} pokemon`;
+  async update(term: string, updatePokemonDto: UpdatePokemonDto) {
+
+    const pokemon = await this.findOne(term);
+
+    try {
+
+      await pokemon.update(updatePokemonDto, {new: true})
+
+      return {...pokemon.toJSON(), ...updatePokemonDto}
+    }
+    catch(error){
+      
+      this.handleException(error);
+
+    }
+
+    
+
+    // return `This action updates a #${term} pokemon`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pokemon`;
+  async remove(id: string) {
+
+    //Opción 1
+    // const pokemon = await this.findOne(id);
+    // await pokemon.deleteOne();
+
+    //Opción 2
+    // const result = await this.pokemonModel.findByIdAndDelete(id);
+
+    //Opción 3
+    // const result = await this.pokemonModel.deleteOne({_id: id});
+    const {deletedCount} = await this.pokemonModel.deleteOne({_id: id});
+
+    if(deletedCount ===0) throw new NotFoundException(`Pokemon with id "${id}" was not found`);
+
+
+    return {message:`pokemon with Id ${id} has been removed`};
+    // return result;
   }
+
+  private handleException(error: any){
+
+    if (error.code === 11000) {
+        throw new BadRequestException(`Pokemon id is unique in db ${JSON.stringify(error.keyValue)}`)
+    }
+
+    console.log(error)
+    throw new InternalServerErrorException(`Can't update pokemon - Check server logs`)
+
+  }
+
 }
