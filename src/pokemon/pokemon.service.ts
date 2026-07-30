@@ -96,7 +96,7 @@ export class PokemonService {
     if(deletedCount ===0) throw new NotFoundException(`Pokemon with id "${id}" was not found`);
 
 
-    return {message:`pokemon with Id ${id} has been removed`};
+    return {message:`pokemon with Id ${id} has been deleted`};
     // return result;
   }
 
