@@ -52,3 +52,26 @@ o
 ```
 npm install axios@0.27.2
 ```
+
+## Para utilizar variables de entorno desde un archivo .env
+
+1. Crear en el root del proyecto el archivo .env
+
+2. agregar @nestjs/config al proyecto utilizando el comando:
+```
+    yarn add @nestjs/config
+```
+o
+```
+    npm install @nestjs/config
+```
+
+3. En el archivo app.module.ts asegurarse de importar "ConfigModule.forRoot()"
+```
+    import { Module } from '@nestjs/common';
+    import { ConfigModule } from '@nestjs/config';
+    @Module({
+    imports: [ConfigModule.forRoot()],
+    })
+    export class AppModule {}
+```
