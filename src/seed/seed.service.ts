@@ -6,16 +6,18 @@ import { CreatePokemonDto } from 'src/pokemon/dto/create-pokemon.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Pokemon } from 'src/pokemon/entities/pokemon.entity';
 import { Model } from 'mongoose';
+import { AxiosAdapter } from 'src/common/adapters/axios.adapter';
 
 @Injectable()
 export class SeedService {
 
-  private readonly axios: AxiosInstance = axios;
+  // private readonly axios: AxiosInstance = axios;
 
   constructor(
     @InjectModel( Pokemon.name )
     private readonly pokemonModel: Model<Pokemon>,
     // private readonly pokemonService: PokemonService
+    private readonly http: AxiosAdapter
   ){}
 
   async executeSeed(limit: number) {
@@ -23,7 +25,8 @@ export class SeedService {
     const pokemonToInsert: CreatePokemonDto[] = []; // insertar multiples registros v2
     await this.pokemonModel.deleteMany({}); // delete * from pokemons
 
-    const{data} = await this.axios.get<PokeResponse>(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`);
+    // const{data} = await this.axios.get<PokeResponse>(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`);
+    const data = await this.http.get<PokeResponse>(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`);
 
     // const insertPromisesArray = []; // insertar multiples registros v1
 

@@ -5,6 +5,7 @@ import { Pokemon } from './entities/pokemon.entity';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { IsMongoId } from 'class-validator';
+import { PaginationDTO } from 'src/common/dto/pagination.dto';
 
 
 @Injectable()
@@ -35,8 +36,16 @@ export class PokemonService {
     
   }
 
-  findAll() {
-    return `This action returns all pokemon`;
+  findAll(paginationDTO: PaginationDTO) {
+
+    const { limit = 10, offset = 0} = paginationDTO
+
+    return this.pokemonModel
+      .find()
+      .limit(limit)
+      .skip(offset)
+      .sort({no: 1}) // ordena por el campo 'no' en forma ascendente (1)
+      .select('-__v'); // quita el campo '__v'
   }
 
   async findOne(term: string) {
