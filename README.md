@@ -5,6 +5,7 @@
 # Ejecutar en desarrollo
 
 1. Clonar el repositorio
+
 2. Ejecutar el comando
 ```
 yarn install
@@ -13,9 +14,22 @@ yarn install
 ```
 npm i -g @nestjs/cli
 ```
-4. Levantar la base de datos
+4. Levantar la base de datos:
 ```
 docker-compose up -d
+```
+5. Clonar el archivo ```.env.template``` y renombrar esta copia a ```.env```
+
+6. llenar las variables de entorno definidas en el archivo ___.env___
+
+7. ejecutar la aplicación en dev:
+```
+yarn start:dev
+```
+
+8. Reconstruir la base de datos con la semilla
+```
+http://localhost:3000/api/seed/200
 ```
 
 ## Stack usado
